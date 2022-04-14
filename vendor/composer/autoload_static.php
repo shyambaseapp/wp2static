@@ -4,16 +4,16 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit64eecd228d5754edd50276966a2aa7c3
+class ComposerStaticInit532a05bfdac62d337693e9762e3e58a5
 {
     public static $files = array (
-        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
-        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        '2edcfd5834be80ee2967bce938e96f65' => __DIR__ . '/..' . '/leonstafford/wp2staticpsr7/src/functions_include.php',
+        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'd0b5a4bcb2eb77db006193765fbdeb4e' => __DIR__ . '/..' . '/leonstafford/wp2staticpromises/src/functions_include.php',
+        '2edcfd5834be80ee2967bce938e96f65' => __DIR__ . '/..' . '/leonstafford/wp2staticpsr7/src/functions_include.php',
+        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '5a8a9c246f848495ce6ab4838c0cce72' => __DIR__ . '/..' . '/leonstafford/wp2staticguzzle/src/functions_include.php',
     );
@@ -61,8 +61,8 @@ class ComposerStaticInit64eecd228d5754edd50276966a2aa7c3
     public static $prefixDirsPsr4 = array (
         'phpDocumentor\\Reflection\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            0 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Webmozart\\Assert\\' => 
@@ -1642,10 +1642,10 @@ class ComposerStaticInit64eecd228d5754edd50276966a2aa7c3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit64eecd228d5754edd50276966a2aa7c3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit64eecd228d5754edd50276966a2aa7c3::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit64eecd228d5754edd50276966a2aa7c3::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit64eecd228d5754edd50276966a2aa7c3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit532a05bfdac62d337693e9762e3e58a5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit532a05bfdac62d337693e9762e3e58a5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit532a05bfdac62d337693e9762e3e58a5::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit532a05bfdac62d337693e9762e3e58a5::$classMap;
 
         }, null, ClassLoader::class);
     }

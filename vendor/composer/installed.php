@@ -5,7 +5,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd63326f9b37293c088056994c177e13413d0dc5e',
+        'reference' => 'd2742aac2892e428388648b4ca850b022d62e297',
         'name' => 'leonstafford/wp2static',
         'dev' => true,
     ),
@@ -115,7 +115,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd63326f9b37293c088056994c177e13413d0dc5e',
+            'reference' => 'd2742aac2892e428388648b4ca850b022d62e297',
             'dev_requirement' => false,
         ),
         'leonstafford/wp2staticguzzle' => array(

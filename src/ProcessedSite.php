@@ -14,7 +14,10 @@ use RecursiveDirectoryIterator;
 class ProcessedSite {
 
     public static function getPath() : string {
-        return SiteInfo::getPath( 'uploads' ) . 'wp2static-processed-site';
+        return apply_filters(
+            'wp2static_processed_site_path',
+            SiteInfo::getPath( 'uploads' ) . 'wp2static-processed-site'
+        );
     }
 
     /**
@@ -51,7 +54,6 @@ class ProcessedSite {
      *  @return string[] ProcessedSite paths
      */
     public static function getPaths() : array {
-        global $wpdb;
         $processed_site_dir = self::getPath();
 
         if ( ! is_dir( $processed_site_dir ) ) {

@@ -151,10 +151,26 @@ class Crawler {
                     $crawled_contents = (string) $response->getBody();
                     $status_code = $response->getStatusCode();
 
+                    $is_cacheable = true;
                     if ( $status_code === 404 ) {
                         WsLog::l( '404 for URL ' . $root_relative_path );
                         CrawlCache::rmUrl( $root_relative_path );
+                        // Delete crawl queue to prevent crawling not found urls forever.
+                        CrawlQueue::rmUrl( $root_relative_path );
+                        // Delete previously generated files under the directories,
+                        // both the crawled and the processed.
+                        array_map(
+                            function( $dir ) use ( $root_relative_path ) {
+                                $suffix = ltrim( $root_relative_path, '/' );
+                                $full_path = trailingslashit( $dir ) . $suffix;
+                                if ( file_exists( $full_path ) && ! is_dir( $full_path ) ) {
+                                    unlink( $full_path );
+                                }
+                            },
+                            [ StaticSite::getPath(), ProcessedSite::getPath() ]
+                        );
                         $crawled_contents = null;
+                        $is_cacheable = false;
                     } elseif ( in_array( $status_code, WP2STATIC_REDIRECT_CODES ) ) {
                         $crawled_contents = null;
                     }
@@ -182,35 +198,31 @@ class Crawler {
                         $page_hash = md5( (string) $status_code );
                     }
 
+                    $write_contents = true;
+
                     if ( $use_crawl_cache ) {
                         // if not already cached
                         if ( CrawlCache::getUrl( $root_relative_path, $page_hash ) ) {
                             $this->cache_hits++;
+                            $write_contents = false;
                         }
                     }
 
                     $this->crawled++;
 
-                    if ( $crawled_contents ) {
-                        // do some magic here - naive: if URL ends in /, save to /index.html
-                        // TODO: will need love for example, XML files
-                        // check content type, serve .xml/rss, etc instead
-                        if ( mb_substr( $root_relative_path, -1 ) === '/' ) {
-                            StaticSite::add(
-                                $root_relative_path . 'index.html',
-                                $crawled_contents
-                            );
-                        } else {
-                            StaticSite::add( $root_relative_path, $crawled_contents );
-                        }
+                    if ( $crawled_contents && $write_contents ) {
+                        $static_path = static::transformPath( $root_relative_path );
+                        StaticSite::add( $static_path, $crawled_contents );
                     }
 
-                    CrawlCache::addUrl(
-                        $root_relative_path,
-                        $page_hash,
-                        $status_code,
-                        $redirect_to
-                    );
+                    if ( $is_cacheable ) {
+                        CrawlCache::addUrl(
+                            $root_relative_path,
+                            $page_hash,
+                            $status_code,
+                            $redirect_to
+                        );
+                    }
 
                     // incrementally log crawl progress
                     if ( $this->crawled % 300 === 0 ) {
@@ -243,6 +255,24 @@ class Crawler {
         ];
 
         do_action( 'wp2static_crawling_complete', $args );
+    }
+
+    /**
+     * Transform a root-relative path to a static site path.
+     *
+     * This lets us encapsulate the logic for path transformation in a single
+     * place and use it in multiple places.
+     *
+     * TODO Should this actually be in `StaticSite`?
+     */
+    public static function transformPath( string $root_relative_path ) : string {
+        // do some magic here - naive: if URL ends in /, save to /index.html
+        // TODO: will need love for example, XML files
+        // check content type, serve .xml/rss, etc instead
+        if ( mb_substr( $root_relative_path, -1 ) === '/' ) {
+            return $root_relative_path . 'index.html';
+        }
+        return $root_relative_path;
     }
 
     /**

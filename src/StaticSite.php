@@ -34,7 +34,10 @@ class StaticSite {
     }
 
     public static function getPath() : string {
-        return SiteInfo::getPath( 'uploads' ) . 'wp2static-crawled-site';
+        return apply_filters(
+            'wp2static_crawled_site_path',
+            SiteInfo::getPath( 'uploads' ) . 'wp2static-crawled-site'
+        );
     }
 
     /**
@@ -57,7 +60,6 @@ class StaticSite {
      *  @return string[] StaticSite paths
      */
     public static function getPaths() : array {
-        global $wpdb;
         $static_site_dir = self::getPath();
 
         if ( ! is_dir( $static_site_dir ) ) {
